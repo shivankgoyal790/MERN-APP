@@ -1,0 +1,54 @@
+.user-container{
+    width: 24rem;
+    height: 130px;
+    margin: auto;
+    background-color: #FBDA61;
+    background-image: linear-gradient(45deg, #FBDA61 0%, #FF5ACD 100%);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.userimage{
+    flex:30%;
+    padding: 0.8rem 0.8rem;   
+}
+
+.userimage > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.info{
+ flex: 70%;
+ color: white;
+}
+
+.info > h2 {
+    font-size: 1.7rem;
+    line-height: 0.5;
+    font-weight: 450;
+    text-align: left;
+}
+
+.info > h3 {
+     line-height: 1;
+     text-align: left;
+     font-size: 1.15rem;
+     font-weight: 600;
+}
+
+.user-container:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}   
+
+@media screen and (max-width:360px) {
+    
+    .user-container{
+        width: 21rem;
+        margin-left: -20px;
+       }
+}
