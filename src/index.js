@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './App';
 import './index.css';
-import Users from "./Users/Users"
 ReactDOM.render(
-      <Users />,document.getElementById('root')
+      <App />,document.getElementById('root')
 );
 
