@@ -1,3 +1,4 @@
+
 .user-container{
     width: 24rem;
     height: 130px;
@@ -29,7 +30,7 @@
 
 .info > h2 {
     font-size: 1.7rem;
-    line-height: 0.5;
+    line-height: 1;
     font-weight: 450;
     text-align: left;
 }
@@ -46,10 +47,19 @@
     cursor: pointer;
 }   
 
-@media screen and (max-width:360px) {
+@media screen and (max-width:570px) {
     
     .user-container{
         width: 21rem;
-        margin-left: -20px;
+        margin: auto auto auto auto;
+       }
+}
+
+@media screen and (max-width:400px) {
+    
+    .user-container{
+        width: 90%;
+        margin: 0px;
+
        }
 }

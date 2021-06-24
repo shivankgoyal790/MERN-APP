@@ -3,7 +3,7 @@ import "./Useritem.css"
 
 const Useritem = (props) =>{
     return(
-      
+            
                 <div className="user-container">
                     <div className="userimage">
                         <img src={props.userimg} alt="user" />
@@ -13,7 +13,7 @@ const Useritem = (props) =>{
                         <h3>{props.placeCount === 1 ? 'Place' : 'Places'} {props.placeCount} </h3>
                     </div>
                 </div>
-      
+           
     );
 }
 
