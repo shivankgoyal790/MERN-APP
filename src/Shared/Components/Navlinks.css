@@ -1,0 +1,33 @@
+.navlist{
+    list-style-type: none;
+    display: inline;
+}
+
+.navlist > li {
+    display: inline;
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 100;
+    background-color: #e55d87;
+    
+}
+
+.navlist > a{
+    text-decoration: none;
+    color: white;
+}
+
+.navlist > li:hover{
+    padding: 10px 20px;
+}
+
+@media screen and (max-width:768px) {
+    .navlist{
+        display: none;
+    }
+}
+
