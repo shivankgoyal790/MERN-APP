@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react"
+import React, {useState } from "react"
 import "./Auth.css"
 
 const Auth = () =>{
@@ -14,7 +14,7 @@ const Auth = () =>{
     
     return(
         <div className="auth-container">
-        <h1 className="authlogo">Shared-Places</h1>
+        <h1 className="authlogo">Share-Places</h1>
         <p>Join The Journey</p>
         <form onSubmit={onSubmitHandler}>
 
