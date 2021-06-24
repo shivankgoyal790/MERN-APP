@@ -1,0 +1,60 @@
+.header{
+    background-image: linear-gradient(to right ,#e55d87,
+    #5fc3e4);
+    margin: 0;
+    height: 50px;
+    padding: 20px 5px ;
+    color: white;
+    position: sticky;
+    box-shadow: 2px 4px 4px 1px  rgba(173, 109, 109, 0.5);
+    overflow-x: hidden;
+}
+
+.links{
+    float:  right;
+}
+
+.applogo{
+    float: left;
+}
+
+.applogo > a{
+    color: white;
+    text-decoration: none;
+}
+
+.menubar{
+    display: none;
+    float: right;
+    cursor: pointer;
+    border:1px solid white;
+    padding: 15px 10px;
+    margin-top: -8px;
+}
+
+.menubar > div{
+    width: 40px;
+    height: 8px;
+    margin-top: 2px;
+    background-color: white;
+}
+
+@media screen and (max-width:768px) {
+   .menubar{
+       display: block;
+   }
+}
+
+@media screen and (max-width:320px) {
+    .menubar > div{
+        width: 20px;
+        height: 5px;
+    }
+    .menubar{
+        padding: 10px 5px;
+        margin-top: 0;
+    }
+    .applogo{
+        font-size: 10vw;
+    }
+ }
