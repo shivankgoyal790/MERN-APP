@@ -60,6 +60,18 @@
     .user-container{
         width: 90%;
         margin: 0px;
+        overflow-x: scroll;
+
+       }
+}
+
+
+@media screen and (max-width:320px) {
+    
+    .user-container{
+        overflow-x: scroll;
+        width: 100%;
+        margin-left:-20px;
 
        }
 }
