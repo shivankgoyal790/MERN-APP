@@ -1,0 +1,111 @@
+.addplace-container{
+    width: 460px;
+    margin: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.8);
+    padding: 4% 2%;
+    background-image: linear-gradient(45deg, #FF5ACD 0%, #FBDA61  100%);
+    position: relative;
+}
+
+.addplace-container > input[type=text] {
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    padding: 16px 6px;
+    border: 1px solid lightpink;
+    display: block;
+    width: 90%;
+    border-radius: 6px;
+    font-family: cursive;
+    outline: none;
+}
+
+.label{
+        background-color: indigo;
+        color: white;
+        padding: 0.5rem;
+        font-family: sans-serif;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        position: absolute;
+        left: 5%;
+        margin-top: -5px;
+      
+}
+
+.choose-file{
+    opacity: 0.0000001;
+    position: relative;
+    z-index: 99;
+    width: 20%;
+    cursor: pointer;
+}
+
+.addplace-container > label{
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-weight: 600;
+}
+
+/* .file-input label {
+    display: block;
+    position: relative;
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+    background: linear-gradient(40deg, #ff6ec4, #7873f5);
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .2s ease-out;
+  }
+
+.choose-file{
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    font-size: 15px;
+    z-index: 99;
+    margin-top: 15px;
+} */
+
+.btn{
+    width: 93%;
+    text-align: center;
+    color: white;
+    background-image: linear-gradient(270deg, #FF5ACD 0%, #FBDA61  100%);
+    padding: 14px 0px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+    font-size: 18px;
+}
+
+.btn:hover{
+    background-image: linear-gradient(270deg, #e050b5 0%, #e2c354  100%);
+   
+  }
+
+@media screen and (max-width:400px) {
+    .addplace-container{
+        width: 90%;
+        overflow-x: scroll;
+    }
+}  
+
+@media screen and (max-width:560px) {
+    .addplace-container{
+        width: 70%;
+        overflow-x: scroll;
+    }
+} 
