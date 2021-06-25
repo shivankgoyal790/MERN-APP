@@ -7,7 +7,6 @@
     color: white;
     position: sticky;
     box-shadow: 2px 4px 4px 1px  rgba(173, 109, 109, 0.5);
-    overflow-x: hidden;
 }
 
 .links{
@@ -24,7 +23,6 @@
 }
 
 .menubar{
-    display: none;
     float: right;
     cursor: pointer;
     border:1px solid white;
@@ -39,10 +37,11 @@
     background-color: white;
 }
 
-@media screen and (max-width:768px) {
-   .menubar{
-       display: block;
-   }
+
+@media (min-width: 768px) {
+    .menubar {
+      display: none;
+    }
 }
 
 @media screen and (max-width:320px) {
@@ -58,3 +57,10 @@
         font-size: 10vw;
     }
  }
+
+ @media screen and (max-width:360px){
+     .header{
+         overflow-x: scroll;
+     }
+ }
+

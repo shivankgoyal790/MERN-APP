@@ -3,36 +3,30 @@ import "./MainNavigation.css"
 import Navlinks from "./Navlinks"
 import { Link } from "react-router-dom"
 import Sidedrawer from "./Sidedrawer"
+import Backdrop from "./Backdrop"
 
 const MainNavigation = () =>{
-    const[visible ,setvisible] = useState(true);
-    
-    const toggledisplay = () =>{
-        if(visible === true)
-            setvisible(false);
-        else
-            setvisible(true);    
+    const[drawerIsOpen ,setDrawerIsOpen] = useState(false);
+    const closeDrawerHandler = () =>{
+        setDrawerIsOpen(false);
     }
-    const setdisplay = () =>{
-        if(window.innerWidth > 767){
-            setvisible(true);
-        }
+
+    const OpendrawerHandler = () =>{
+        setDrawerIsOpen(true);
     }
-    window.addEventListener('resize' , setdisplay)
     return (
         <>
+          {drawerIsOpen && <Backdrop onClick={closeDrawerHandler} />}
+            <Sidedrawer show={drawerIsOpen} onClick={closeDrawerHandler} />       
         <h1 className="header">
             <span className="applogo"><Link to="/">Share-Places</Link></span>
             <span className="links"><Navlinks /></span>
-            <span className="menubar" onClick={toggledisplay}>
+            <span className="menubar" onClick={OpendrawerHandler}>
             <div></div>
             <div></div>
             <div></div>
             </span> 
         </h1>
-        <div style={{display: visible ? "none" : "block"}}>
-        <Sidedrawer />
-        </div>
         </>
     );
 }
