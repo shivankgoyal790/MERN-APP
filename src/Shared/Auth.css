@@ -37,6 +37,17 @@
     outline: none; 
 }
 
+.switch{
+    color: #FBDA61;
+    cursor: pointer;
+}
+
+.error{
+    line-height: 0.9;
+    margin-top: 3px;
+    color: #FBDA61;
+}
+
 .authlogo{
     color: white;
     font-size: 40px;
