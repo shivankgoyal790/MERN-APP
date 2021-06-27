@@ -1,6 +1,7 @@
 
 .user-container{
-    width: 24rem;
+    max-width: 24rem;
+    width: 80%;
     height: 130px;
     margin: auto;
     background-color: #FBDA61;
@@ -47,31 +48,6 @@
     cursor: pointer;
 }   
 
-@media screen and (max-width:570px) {
-    
-    .user-container{
-        width: 21rem;
-        margin: auto auto auto auto;
-       }
-}
-
-@media screen and (max-width:400px) {
-    
-    .user-container{
-        width: 90%;
-        margin: 0px;
-        overflow-x: scroll;
-
-       }
-}
 
 
-@media screen and (max-width:320px) {
-    
-    .user-container{
-        overflow-x: scroll;
-        width: 100%;
-        margin-left:-20px;
 
-       }
-}
