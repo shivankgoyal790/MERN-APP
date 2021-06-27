@@ -1,39 +1,22 @@
-import React, { useState } from "react"
-import "./Places.css"
+import React from "react"
+import Placeslist from "../Myplaces/Placeslist"
 import Logo1 from "../../Shared/images/Sydney_Opera_House_Front_angle (1).jpg"
-import Backdrop from  "../../Shared/Components/Backdrop"
-import Modal from "../../Shared/Modal/Modal"
 
 const Places = () =>{
+    const Places = [ 
+        {
+            id: 'p1',
+            building: 'opera house',
+            statename: 'Sydney',
+            imgUrl:Logo1,
+            address: '20 W 34th St,sydney, australia 10001',
+            creator: 'u1'
 
-    const[showmodal , setshowmodal ] = useState(false);
-    const closeMapHandler = () =>{
-        setshowmodal(false);
-    }
-
-    const OpenMapHandler = () =>{
-        setshowmodal(true);
-    }
+        }]
 
     return(
-        <>
-          
-        <div className="place-container">
-            <div className="image-container">
-                <img src={Logo1} alt="building" />
-            </div>
-            <h1 className="country">Sydney</h1>
-            <h2 className="building">opera house</h2>
-            <h3 className="map-details">map details</h3>
-            <br></br>
-            <button className="btn1" onClick={OpenMapHandler}>View Map</button>
-            <button className="btn1">Edit</button>
-            <button className="btn1">Delete</button>
-            {showmodal && <Backdrop onClick={closeMapHandler}/>}
-            <Modal show={showmodal} location="hi there" onClick={closeMapHandler}/>  
-        </div>
-        </>
+       <Placeslist items = {Places} />
     );
 }
 
-export default Places;
+export default Places
