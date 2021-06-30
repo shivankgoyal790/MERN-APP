@@ -1,9 +1,10 @@
-import React, {useState } from "react"
+import React, {useContext, useState } from "react"
 import "./Auth.css"
 import { validate, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../Shared/Util/validators';
 import {
     VALIDATOR_EMAIL
   } from '../Shared/Util/validators';
+import { Authcontext } from "./Context/Authcontext";
 
 const Auth = () =>{
 
@@ -12,6 +13,7 @@ const Auth = () =>{
     const [passvalid , setpassvalid] = useState(true);
     const [uservalid , setuservalid] = useState(true);
     const [IsLogin , setLogin] = useState(true);
+    const Authentication = useContext(Authcontext);
 
 
     const InputHandler = (event) =>{
@@ -70,13 +72,14 @@ const Auth = () =>{
         }
         if(IsLogin){
         if(valid1 && valid2){
-             alert("form submitted");}
+             alert("YOUR ARE NOW LOGGED IN");}
         }
         
         else if( !IsLogin){
              if(valid1 && valid2 && valid3){
-                alert("form submitted");}
+                alert("YOU ARE NOW LOGGED IN");}
         }     
+        Authentication.login();
 
     }    
     
