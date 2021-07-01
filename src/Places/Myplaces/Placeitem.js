@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import "./Placeitem.css"
 import Backdrop from  "../../Shared/Components/Backdrop"
 import Modal from "../../Shared/Modal/Modal"
+import {Authcontext} from "../../Shared/Context/Authcontext" 
 
 const Placeitem = (props) =>{
 
@@ -13,6 +14,7 @@ const Placeitem = (props) =>{
     const OpenMapHandler = () =>{ 
         setshowmodal(true);
     }
+    const Auth = useContext(Authcontext);
 
     return(
         <>
@@ -27,8 +29,10 @@ const Placeitem = (props) =>{
             <br></br>
             <div className="btn-container">
             <button className="btn1" onClick={OpenMapHandler}>View Map</button>
-            <button className="btn1">Edit</button>
-            <button className="btn1">Delete</button>
+            {Auth.isLoggedIn &&
+            <button className="btn1">Edit</button>}
+            {Auth.isLoggedIn &&
+            <button className="btn1">Delete</button>}
             </div>
  
         </div>
