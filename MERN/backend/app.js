@@ -1,6 +1,9 @@
 const express =require('express');
-const bobyparser = require('body-parser');
+const bodyParser = require("body-parser");
+
 const app = express();
 const placeroute = require("./Route/place-route");
-app.use("/places",placeroute);
+const userroute = require("./Route/users-route")
+app.use("/api",placeroute);
+app.use("/users",userroute);
 app.listen(5000);
