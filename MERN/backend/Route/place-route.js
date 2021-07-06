@@ -3,10 +3,14 @@ const places = express.Router();
 
 const PlacesControllers = require("../Controllers/Places-Controllers");
 
-places.get('/:pid',PlacesControllers.getplacesByid);
+places.get('/places/:pid',PlacesControllers.getplacesByid);
 
-places.get("/users/:uid",PlacesControllers.getplacesByuserid);
+places.get("/places/users/:uid",PlacesControllers.getplacesByuserid);
 
-places.post("/plac",PlacesControllers.createplaces);
+places.post("/createplace",PlacesControllers.createplaces);
+
+places.patch("/:pid",PlacesControllers.updateplaces);
+
+places.delete("/:pid" , PlacesControllers.deletedplace);
 
 module.exports = places;
