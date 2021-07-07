@@ -1,3 +1,4 @@
+const {validationResult} = require('express-validator')
 const DUMMY_PLACES = [
     {
       id: 'p1',
@@ -29,6 +30,11 @@ const getplacesByuserid = (req,res,next)=>{
 const createplaces = (req,res,next) =>{
 
   const {title,description,address,location,creator} = req.body;
+  const error = validationResult(req);
+  if(!error.isEmpty()){
+    res.json({message:"please check your info"});
+  }
+  else{
   const createdplace = {
     title,
     description,
@@ -38,6 +44,7 @@ const createplaces = (req,res,next) =>{
   DUMMY_PLACES.push(createdplace);
 
   res.json({place : createdplace})
+  }
 };
 
 
