@@ -1,5 +1,4 @@
-const { getDefaultNormalizer } = require("@testing-library/react");
-
+const {validationResult} = require('express-validator')
 const USERS = [
     {
       id: 'u1',
@@ -29,9 +28,14 @@ const login = (req,res,next) =>{
 const signup = (req,res,next) =>{
 
     const {id,name,email,password} = req.body;
+    const error = validationResult(req);
     const sameuser = USERS.find(u => u.email === email);
     if(sameuser.length > 0 )
         res.json("sorry email exists");
+    else if (!error.isEmpty()){
+          res.json({message:"please check your info"});
+        }
+    
     else{    
     const newuser = {id,name,email,password};
     USERS.push(newuser);
