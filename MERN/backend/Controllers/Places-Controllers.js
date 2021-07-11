@@ -1,4 +1,11 @@
 const {validationResult} = require('express-validator')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+const place = require('../models/places-model') 
+mongoose.connect("mongodb://localhost:27017/places").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
+
+
+
 const DUMMY_PLACES = [
     {
       id: 'p1',
@@ -14,11 +21,27 @@ const DUMMY_PLACES = [
       creator: 'u1'
 }]; 
 
-const getplacesByid = (req,res,next)=>{
+const getplacesByid = async (req,res,next)=>{
     const placeid = req.params.pid;
-    const answer = DUMMY_PLACES.filter(p =>p.id === placeid
-    );
-    res.json({answer})
+    let answer;
+    // const answer = DUMMY_PLACES.filter(p =>p.id === placeid
+    // );
+    // res.json({answer})
+    try{
+      answer = await place.findById(placeid);
+      
+    }
+    catch(err){
+      console.log(err);
+      next(err);
+    }
+    if(!answer){
+      res.json({message : 'cannot find id'});
+    }
+
+    res.json({answer: answer.toObject({getters :true})});
+      
+   
 }
 
 const getplacesByuserid = (req,res,next)=>{
@@ -27,25 +50,28 @@ const getplacesByuserid = (req,res,next)=>{
     res.json( {answer : answer});
 }
 
-const createplaces = (req,res,next) =>{
-
-  const {title,description,address,location,creator} = req.body;
+const createplaces = async (req , res,next) =>{
   const error = validationResult(req);
-  if(!error.isEmpty()){
-    res.json({message:"please check your info"});
-  }
-  else{
-  const createdplace = {
-    title,
-    description,
-    address,
-    location,
-    creator};
-  DUMMY_PLACES.push(createdplace);
+  
+  if(error.isEmpty){
+  const createdplace = new place({
 
-  res.json({place : createdplace})
+      title: req.body.title,
+      description :req.body.description,
+      address : req.body.address,
+      location : req.body.location,
+      creator : req.body.creator
+  
+    }); 
+  
+  const result = await createdplace.save();
+  res.json({result});
+
+}
+  else{
+    console.log("cannot add place");
   }
-};
+}
 
 
 const updateplaces = (res,req,next) =>{
