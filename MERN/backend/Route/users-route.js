@@ -11,4 +11,4 @@ users.post("/signup",[check('email').normalizeEmail().isEmail() ,check('password
 users.post("/login",usersControllers.login);
 
 
-module.exports = users;    
+module.exports = users;     
