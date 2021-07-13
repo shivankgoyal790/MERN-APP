@@ -1,5 +1,4 @@
 const {validationResult} = require('express-validator')
-const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const place = require('../models/places-model') 
 mongoose.connect("mongodb://localhost:27017/places").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
@@ -44,10 +43,25 @@ const getplacesByid = async (req,res,next)=>{
    
 }
 
-const getplacesByuserid = (req,res,next)=>{
+const getplacesByuserid = async (req,res,next)=>{
     const userid = req.params.uid;
-    const answer =  DUMMY_PLACES.find( u => u.creator === userid);
-    res.json( {answer : answer});
+    // const answer =  DUMMY_PLACES.find( u => u.creator === userid);
+    // res.json( {answer : answer});
+    let answer;
+    try{
+      answer = await place.find( {creator : userid})
+      if(answer.length === 0){
+        res.json({message : 'cannot find id'});
+      }
+      else
+      res.json({answer : answer})
+    }  
+    catch(err){
+      console.log(err);
+      next(err);
+    }
+ 
+    
 }
 
 const createplaces = async (req , res,next) =>{
@@ -74,23 +88,61 @@ const createplaces = async (req , res,next) =>{
 }
 
 
-const updateplaces = (res,req,next) =>{
- const{tittle ,description} = req.body;
+const updateplaces =  async (req,res,next) =>{
+ 
   const placeid = req.params.pid;
-  const updatedplace = {...DUMMY_PLACES}.find(p => p.id === placeid);
-  const placeindex = DUMMY_PLACES.findIndex(p => p.pid = placeid);
-  updatedplace.title =tittle;
-  updatedplace.description =description;
-  DUMMY_PLACES[placeindex] = updatedplace;
-res.json({place : updatedplace });
+  const title = req.body.title; 
+ const description = req.body.description;
+ 
+// const error = validationResult(req)
+//   const updatedplace = {...DUMMY_PLACES}.find(p => p.id === placeid);
+//   const placeindex = DUMMY_PLACES.findIndex(p => p.pid = placeid);
+//   updatedplace.title =tittle;S
+//   updatedplace.description =description;
+//   DUMMY_PLACES[placeindex] = updatedplace;
+// res.json({place : updatedplace });
+let Place;
+try{
+  Place = await place.findById(placeid).exec();
+}catch(err) {
+  res.json("cannot update place");
+}
+
+Place.title = title;
+Place.description = description;
+try{ 
+  await Place.save();
+}catch(err) {
+  console.log(err);
+}
+
+res.json( {place : Place.toObject({getters:true})})
 
 }
 
-const deleteplaces = (res,req,next) =>{
+
+
+const deleteplaces = async (req,res,next) =>{
   const placeid =  req.params.pid;
-  const deletedplace = {...DUMMY_PLACES.findIndex(p => p.id === placeid)}
-  DUMMY_PLACES[deletedplace].remove();
-  res.json({message: 'deleted'});
+  // const deletedplace = {...DUMMY_PLACES.findIndex(p => p.id === placeid)}
+  // DUMMY_PLACES[deletedplace].remove();
+  // res.json({message: 'deleted'});
+  let answer ;
+  try{
+     answer = await place.findById(placeid);
+  }
+  catch(err){
+    console.log(err);
+    res.json("cannot delete");
+  }
+ try{
+   await answer.remove();
+ }
+ catch(err){
+   res.json("cannot delete");
+ }
+
+  res.json({answer : "deleted place"});
 }
 
 
