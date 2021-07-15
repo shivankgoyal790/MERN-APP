@@ -13,17 +13,17 @@ const Users = require("../models/Users-model");
 //   ];
 
 
-const getusers = (req,res,next) =>{
+const getusers = async (req,res,next) =>{
 
     // res.json( USERS);
     let answer
     try{
-      answer = Users.find({}, '-password');
+      answer = await Users.find({}, '-password')
     }
     catch(err){
-      res.json('cannot fetch users');
+      res.json('cannot fetch users');  
     }
-    res.json({users : answer.map(user => answer.toObject())});
+    res.json({users : answer.map(answer => answer.toObject({getters:true}))});
 }
 
 const login =async (req,res,next) =>{
