@@ -1,6 +1,7 @@
 const {validationResult} = require('express-validator')
 const mongoose = require('mongoose');
-const place = require('../models/places-model') 
+const place = require('../models/places-model'); 
+const Users = require('../models/Users-model')
 mongoose.connect("mongodb://localhost:27017/places").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
 
 
@@ -74,12 +75,34 @@ const createplaces = async (req , res,next) =>{
       description :req.body.description,
       address : req.body.address,
       location : req.body.location,
-      creator : req.body.creator
+      creator :req.body.creator
   
     }); 
+    let user;
+    try{
+      user = await Users.findById(createdplace.creator);
+    }catch(err){
+      res.json("sorry cannot add places");
+    }
+
+    if(!user){
+      res.json("cannot find user");
+    }
+    
+    try{
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await createdplace.save({session : sess} )
+      user.places.push(createdplace);
+      await user.save({session :sess});
+      await sess.commitTransaction();
+    }catch(err){
+      console.log(err);
+      res.json("cannot add place");
+    }
   
-  const result = await createdplace.save();
-  res.json({result});
+  // const result = await createdplace.save();
+  res.json({place : createdplace});
 
 }
   else{
@@ -129,17 +152,27 @@ const deleteplaces = async (req,res,next) =>{
   // res.json({message: 'deleted'});
   let answer ;
   try{
-     answer = await place.findById(placeid);
+     answer = await place.findById(placeid).populate('creator');
   }
   catch(err){
     console.log(err);
-    res.json("cannot delete");
+    res.json("cannot delete ist error");
   }
+  if(!answer){
+    res.json("cannot find place");
+  }
+
+
  try{
-   await answer.remove();
+   const sess = await mongoose.startSession();
+   await sess.startTransaction();
+   await answer.remove({session : sess});
+  answer.creator.places.pull(answer);
+   await answer.creator.save({session :sess});
+   await sess.commitTransaction(); 
  }
  catch(err){
-   res.json("cannot delete");
+   res.json("cannot delete place");
  }
 
   res.json({answer : "deleted place"});
