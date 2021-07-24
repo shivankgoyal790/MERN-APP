@@ -53,13 +53,14 @@ const login =async (req,res,next) =>{
 
 
 const signup =async (req,res,next) =>{
-    const {name,email,password,places} = req.body;
+    const {name,email,password} = req.body;
     let usercheck
     try{
-      usercheck = await Users.findone( {email : email})
+      usercheck = await Users.findOne( {email : email})
     }  
     catch(err){
       res.json("cannot signup!");
+      console.log(err);
     }
 
     if(usercheck)
@@ -73,7 +74,7 @@ const signup =async (req,res,next) =>{
           name : name,
           email : email,
           password : password,
-          places : places
+          places : []
         }
       )
       try{
