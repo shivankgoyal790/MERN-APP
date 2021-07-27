@@ -2,24 +2,24 @@ const {validationResult} = require('express-validator')
 const mongoose = require('mongoose');
 const place = require('../models/places-model'); 
 const Users = require('../models/Users-model')
-mongoose.connect("mongodb://localhost:27017/places").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
+// mongoose.connect("mongodb://localhost:27017/places?retryWrites=false?replicaSet=rs").then(() => {console.log('conected to database')}).catch( () => { console.log('not connected')});
 
 
 
-const DUMMY_PLACES = [
-    {
-      id: 'p1',
-      title: 'Empire State Building',
-      description: 'One of the most famous sky scrapers in the world!',
-      imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-      address: '20 W 34th St, New York, NY 10001',
-      location: {
-        lat: 40.7484405,
-        lng: -73.9878584
-      },
-      creator: 'u1'
-}]; 
+// const DUMMY_PLACES = [ 
+//     {
+//       id: 'p1',
+//       title: 'Empire State Building',
+//       description: 'One of the most famous sky scrapers in the world!',
+//       imageUrl:
+//         'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
+//       address: '20 W 34th St, New York, NY 10001',
+//       location: {
+//         lat: 40.7484405,
+//         lng: -73.9878584
+//       },
+//       creator: 'u1'
+// }]; 
 
 const getplacesByid = async (req,res,next)=>{
     const placeid = req.params.pid;
@@ -67,20 +67,21 @@ const getplacesByuserid = async (req,res,next)=>{
 
 const createplaces = async (req , res,next) =>{
   const error = validationResult(req);
-  
+  const { title, description, address,location, creator } = req.body;
+
   if(error.isEmpty){
   const createdplace = new place({
 
-      title: req.body.title,
-      description :req.body.description,
-      address : req.body.address,
-      location : req.body.location,
-      creator :req.body.creator
+      title,
+      description,
+      address,
+      location,
+      creator
   
     }); 
     let user;
     try{
-      user = await Users.findById(createdplace.creator);
+      user = await Users.findById(creator);
     }catch(err){
       res.json("sorry cannot add places");
     }
@@ -105,9 +106,7 @@ const createplaces = async (req , res,next) =>{
   res.json({place : createdplace});
 
 }
-  else{
-    console.log("cannot add place");
-  }
+ 
 }
 
 
@@ -156,13 +155,12 @@ const deleteplaces = async (req,res,next) =>{
   }
   catch(err){
     console.log(err);
-    res.json("cannot delete ist error");
+    res.json("cannot delete 1st error");
   }
   if(!answer){
     res.json("cannot find place");
   }
-
-
+else{
  try{
    const sess = await mongoose.startSession();
    await sess.startTransaction();
@@ -172,10 +170,12 @@ const deleteplaces = async (req,res,next) =>{
    await sess.commitTransaction(); 
  }
  catch(err){
+   console.log(err);
    res.json("cannot delete place");
+   next();
  }
-
-  res.json({answer : "deleted place"});
+ res.json({answer : "deleted place"});
+}
 }
 
 

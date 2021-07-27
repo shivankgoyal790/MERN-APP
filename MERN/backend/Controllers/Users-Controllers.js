@@ -1,7 +1,7 @@
 // const {validationResult} = require('express-validator')
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb//localhost:27017/Users").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
+// mongoose.connect("mongodb//localhost:27017/Users?retryWrites=false").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
 const Users = require("../models/Users-model");
 // const USERS = [
 //     {
@@ -65,6 +65,7 @@ const signup =async (req,res,next) =>{
 
     if(usercheck)
     {
+      console.log('user exists');
       res.json('user already exist');
       return next();
     }
