@@ -52,7 +52,7 @@ const Auth = () =>{
             setLogin(true);
             }
 
-    const onSubmitHandler = (event) =>{
+    const onSubmitHandler = async (event) =>{
         event.preventDefault(); 
         setuservalid(true);
         setpassvalid(true);
@@ -71,15 +71,41 @@ const Auth = () =>{
             setuservalid(false);
         }
         if(IsLogin){
-        if(valid1 && valid2){
-             alert("YOUR ARE NOW LOGGED IN");}
+            console.log("hi");
         }
-        
-        else if( !IsLogin){
-             if(valid1 && valid2 && valid3){
-                alert("YOU ARE NOW LOGGED IN");}
-        }     
+        else{
+            console.log("bye");
+            try {
+            const response = await fetch("http://localhost:5000/users/signup",{
+                method : 'POST',
+                headers : {'Content-Type' : 'application/json'}, 
+                body : JSON.stringify({
+                    name : Newvalue.username,
+                    email : Newvalue.email,
+                    password : Newvalue.password
+                }),
+            });  
+            console.log(response.body.name);
+            const responsedata = await response.json();
+            console.log(responsedata);
+        }
+        catch(err){
+            console.log(err);
+        }   
+        }
         Authentication.login();
+
+
+        // if(IsLogin){
+        // if(valid1 && valid2){
+        //      alert("YOUR ARE NOW LOGGED IN");}
+        // }
+        
+        // else if( !IsLogin){
+        //      if(valid1 && valid2 && valid3){
+        //         alert("YOU ARE NOW LOGGED IN");}
+        // }     
+
 
     }    
     
@@ -110,7 +136,6 @@ const Auth = () =>{
                         name="email"
                         onChange = {InputHandler}
                         value={Newvalue.email}
-                        autoComplete = "none"
                         placeholder="Enter Your Email">
                     </input>
            
