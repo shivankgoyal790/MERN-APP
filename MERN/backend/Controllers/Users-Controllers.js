@@ -62,11 +62,14 @@ const signup =async (req,res,next) =>{
       res.json("cannot signup!");
       console.log(err);
     }
-
+try{
     if(usercheck)
     {
       console.log('user exists');
       res.json('user already exist');
+      throw new Error('user exist');
+    }}catch(err){
+      console.log('user already exist');
       return next();
     }
     
@@ -83,6 +86,7 @@ const signup =async (req,res,next) =>{
       }
       catch(err){
         res.json("check credentials cannot signup");
+        
       }
 
       res.json({user : newuser.toObject({getters:true})});
