@@ -5,6 +5,7 @@ import {
     VALIDATOR_EMAIL
   } from '../Shared/Util/validators';
 import { Authcontext } from "./Context/Authcontext";
+import Loadingscreen  from "./Components/Loadingscreen";
 
 const Auth = () =>{
 
@@ -13,6 +14,8 @@ const Auth = () =>{
     const [passvalid , setpassvalid] = useState(true);
     const [uservalid , setuservalid] = useState(true);
     const [IsLogin , setLogin] = useState(true);
+    const [isloading , setisloading] = useState(false);
+    const [error , seterror] = useState();
     const Authentication = useContext(Authcontext);
 
 
@@ -72,9 +75,36 @@ const Auth = () =>{
         }
         if(IsLogin){
             console.log("hi");
+            setisloading(true);
+            try {
+            const response = await fetch("http://localhost:5000/users/login",{
+                method : 'POST',
+                headers : {'Content-Type' : 'application/json'}, 
+                body : JSON.stringify({
+                    email : Newvalue.email,
+                    password : Newvalue.password
+                }),
+            });  
+
+            const responsedata = await response.json();
+            console.log(response.ok);
+            if(!response.ok){
+                seterror("cannot find");
+                throw new Error(responsedata.message);
+            }
+            setisloading(false); 
+            Authentication.login();
+        }
+        catch(err){
+            console.log(err);
+            setisloading(false);
+            seterror(err.message || "something went wrong");   
+        }
+
         }
         else{
             console.log("bye");
+            setisloading(true);
             try {
             const response = await fetch("http://localhost:5000/users/signup",{
                 method : 'POST',
@@ -85,15 +115,25 @@ const Auth = () =>{
                     password : Newvalue.password
                 }),
             });  
-            console.log(response.body.name);
+
             const responsedata = await response.json();
+            console.log(response.ok);
+            if(!response.ok){
+                seterror("cannot find");
+                throw new Error(responsedata.message);
+            }
             console.log(responsedata);
+            setisloading(false); 
+            Authentication.login();
         }
         catch(err){
             console.log(err);
-        }   
+            setisloading(false);
+            seterror(err.message || "something went wrong");   
         }
-        Authentication.login();
+
+        }
+        
 
 
         // if(IsLogin){
@@ -111,6 +151,7 @@ const Auth = () =>{
     
     return(
         <div className="auth-container">
+        {isloading && <Loadingscreen asOverlay/>}
             <h1 className="authlogo">Share-Places</h1>
             <p>Join The Journey</p>
             <form onSubmit={onSubmitHandler}>
