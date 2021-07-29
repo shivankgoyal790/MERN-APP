@@ -87,7 +87,6 @@ const Auth = () =>{
             });  
 
             const responsedata = await response.json();
-            console.log(response.ok);
             if(!response.ok){
                 seterror("cannot find");
                 throw new Error(responsedata.message);
@@ -117,7 +116,6 @@ const Auth = () =>{
             });  
 
             const responsedata = await response.json();
-            console.log(response.ok);
             if(!response.ok){
                 seterror("cannot find");
                 throw new Error(responsedata.message);
