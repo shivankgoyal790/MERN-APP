@@ -21,7 +21,8 @@ const getusers = async (req,res,next) =>{
       answer = await Users.find({}, '-password')
     }
     catch(err){
-      res.json('cannot fetch users');  
+      res.status(500).json('cannot fetch users');  
+      
     }
     res.json({users : answer.map(answer => answer.toObject({getters:true}))});
 }
@@ -43,8 +44,9 @@ const login =async (req,res,next) =>{
     res.json("cannot log in");
   }
 
-  if(answer.password !== password || !answer)
-  res.json('check credentials')    
+  console.log(answer);
+  if(!answer || answer.password !== password)
+  res.status(400).json('check credentials');
   else
   res.json("logged in");
   
@@ -66,7 +68,8 @@ try{
     if(usercheck)
     {
       console.log('user exists');
-      res.json('user already exist');
+      res.starus(400).json('user already exist');
+
       throw new Error('user exist');
     }}catch(err){
       console.log('user already exist');

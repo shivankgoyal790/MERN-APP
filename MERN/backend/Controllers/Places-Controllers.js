@@ -36,7 +36,7 @@ const getplacesByid = async (req,res,next)=>{
       next(err);
     }
     if(!answer){
-      res.json({message : 'cannot find id'});
+      res.status(400).json({message : 'cannot find id'});
     }
 
     res.json({answer: answer.toObject({getters :true})});
@@ -52,7 +52,7 @@ const getplacesByuserid = async (req,res,next)=>{
     try{
       answer = await place.find( {creator : userid})
       if(answer.length === 0){
-        res.json({message : 'cannot find id'});
+        res.status(400).json({message : 'cannot find id'});
       }
       else
       res.json({answer : answer})
@@ -87,7 +87,7 @@ const createplaces = async (req , res,next) =>{
     }
 
     if(!user){
-      res.json("cannot find user");
+      res.status(404).json("cannot find user");
     }
     
     try{
@@ -158,7 +158,7 @@ const deleteplaces = async (req,res,next) =>{
     res.json("cannot delete 1st error");
   }
   if(!answer){
-    res.json("cannot find place");
+    res.status(400).json("cannot find place");
   }
 else{
  try{
