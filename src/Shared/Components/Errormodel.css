@@ -1,0 +1,12 @@
+.errorbackground{
+    position: absolute;
+    width: 20%;
+    margin-right: auto;
+    background-color:blueviolet;
+    text-align: center;
+
+}
+
+.message{
+    color: white;
+}
