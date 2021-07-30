@@ -1,8 +1,10 @@
 import React, { useState } from "react"
+import { Authcontext } from "../../Shared/Context/Authcontext";
+import { useContext } from "react";
 import "./Addplaces.css"
 
 const Addplaces = () =>{
-
+    const Authentication = useContext(Authcontext);
     const [Newvalue , ChangeNewvalue ] = useState({
             country: "",
             address : "",
@@ -32,7 +34,37 @@ const Addplaces = () =>{
                 location : value
              }}
         });
+
     }
+
+
+        const Addplacehandler = async () =>{
+            
+            try{
+            const response = await fetch( "http://localhost:5000/api/createplaces", {
+            method : "POST",
+            headers : {'Content-Type' : 'application/json'}, 
+            body : JSON.stringify({
+                title : Newvalue.country,
+                description : Newvalue.address,
+                address : Newvalue.address,
+                location : Newvalue.location,
+                creator : Authentication.uid
+            }),
+          
+        }); 
+        const responsedata = response.json();
+        if(!response.ok){
+            throw new Error(responsedata.message);
+        }
+        console.log(responsedata);
+        }catch(err){
+            console.log(err || "cannot create place");
+        }
+
+       
+    }
+
    return(
            <div className="addplace-container">
            <h2>Please Upload Your file:</h2>
@@ -46,7 +78,7 @@ const Addplaces = () =>{
            <br></br>
            <br></br>
           
-           <label htmlFor="contry">Country:</label>
+           <label htmlFor="country">Country:</label>
            <input 
                 type="text" 
                 className="contry" 
@@ -60,7 +92,7 @@ const Addplaces = () =>{
            <input 
                 type="text" 
                 name="building" 
-                placeholder="enter Location"
+                placeholder="Enter Location"
                 onChange ={InputHandler} 
                 value={Newvalue.address} 
               
@@ -73,8 +105,8 @@ const Addplaces = () =>{
                 placeholder="Enter Map location"
                 onChange ={InputHandler} 
                 value={Newvalue.location}    
-                />
-           <button type="submit" className="btn">ADD PLACE</button>
+            />
+           <button type="submit" className="btn" onClick={Addplacehandler}>ADD PLACE</button>
            </div>
         
     );
