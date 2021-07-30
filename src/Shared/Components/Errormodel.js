@@ -1,27 +1,15 @@
-import React, { useState } from "react"
-import Backdrop from "./Backdrop"
+import React from "react"
 import "./Errormodel.css"
 
 const Errormodel = (props) =>{
-    const [isopen ,setisopen] = useState(true);
-    
-    const openhandler = () =>{
-        if(isopen){
-            setisopen(false);
-        }
-    }
-    
-    return(
-    <>
-    {isopen && <Backdrop onclick={openhandler}/>}
-    <div style = {{display:props.disp}} className="errorbackground">
-    <div className="message">
-        <p>{props.text}</p>
-    </div>
-    </div>
-    </>
-    );
 
+    return(
+            <div className="error-model-container" style={{display: props.show ? "block" : "none"}}>
+                <p> {props.error}</p>
+                <button className="error-model-btn" onClick={props.onClick}>close</button>
+            </div>
+    
+    )
 }
 
 export default Errormodel;
