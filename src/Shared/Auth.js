@@ -6,6 +6,8 @@ import {
   } from '../Shared/Util/validators';
 import { Authcontext } from "./Context/Authcontext";
 import Loadingscreen  from "./Components/Loadingscreen";
+import Backdrop from "../Shared/Components/Backdrop";
+import Errormodel from "./Components/Errormodel";
 
 const Auth = () =>{
 
@@ -16,6 +18,15 @@ const Auth = () =>{
     const [IsLogin , setLogin] = useState(true);
     const [isloading , setisloading] = useState(false);
     const [error , seterror] = useState();
+    const[showmodal , setshowmodal ] = useState(false);
+    
+    const closeMapHandler = () =>{
+        setshowmodal(false);
+    }
+
+    const OpenMapHandler = () =>{ 
+        setshowmodal(true);
+    }
     const Authentication = useContext(Authcontext);
 
 
@@ -97,7 +108,9 @@ const Auth = () =>{
         catch(err){
             console.log(err);
             setisloading(false);
-            seterror(err.message || "something went wrong");   
+            seterror(err.message || "Invalid Credentials"); 
+            OpenMapHandler();
+            setIsvalid(false);
         }
 
         }
@@ -127,7 +140,8 @@ const Auth = () =>{
         catch(err){
             console.log(err);
             setisloading(false);
-            seterror(err.message || "something went wrong");   
+            seterror(err.message || "something went wrong");  
+            OpenMapHandler(); 
         }
 
         }
@@ -150,6 +164,8 @@ const Auth = () =>{
     return(
         <div className="auth-container">
         {isloading && <Loadingscreen asOverlay/>}
+        {showmodal && <Backdrop onClick={closeMapHandler}/>}
+            <Errormodel show={showmodal} error={error} onClick={closeMapHandler}/> 
             <h1 className="authlogo">Share-Places</h1>
             <p>Join The Journey</p>
             <form onSubmit={onSubmitHandler}>
