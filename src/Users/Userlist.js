@@ -5,13 +5,13 @@ const Userlist = (props) =>{
     if (props.items.length === 0) {
         return (
           <div className="center">
-              <h2>No users found.</h2> 
+              <h2>No users found.</h2>
           </div>
         );
       }
     
     return(
-        <ul>
+        <ul className="backr">
          {props.items.map(curr =>(
              <Useritem 
              key= {curr.id}

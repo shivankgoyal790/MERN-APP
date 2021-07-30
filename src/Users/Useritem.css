@@ -14,9 +14,10 @@
 }
 
 .userimage{
-    flex:2.5rem;
+    flex:120px;
+    max-width: 110px;
     padding: 0.8rem 0.8rem;   
-}
+}   
 
 .userimage > img {
     width: 100%;

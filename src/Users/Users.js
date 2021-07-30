@@ -1,10 +1,9 @@
 import React, { useState } from "react"
 import Userlist from "./Userlist"
-import Logo1 from "../Shared/images/shiva.jpg"
-import Logo2 from "../Shared/images/sheena.jpg"
+// import Logo1 from "../Shared/images/shiva.jpg"
+// import Logo2 from "../Shared/images/sheena.jpg"
 import { useEffect } from "react"
 import Loadingscreen from "../Shared/Components/Loadingscreen"
-import Errormodel from "../Shared/Components/Errormodel"
 
     // const Myusers = [
     //  {
@@ -23,7 +22,7 @@ import Errormodel from "../Shared/Components/Errormodel"
 
 const Users = () =>{
     const [isloading , setisloading] = useState(false);
-    const [error ,seterror] = useState();
+    // const [error ,seterror] = useState();
     const [userdata , setuserdata] = useState();    
     
     useEffect( () => {
@@ -35,7 +34,7 @@ const Users = () =>{
                 const response = await fetch("http://localhost:5000/users");
                 const responsedata = await response.json();
                 if(!response.ok){
-                    seterror("cannot find");
+                    // seterror("cannot find");
                     setisloading(false);
                     throw new Error(responsedata.message);
                     }
@@ -54,13 +53,12 @@ const Users = () =>{
             sendrequest();
             
             },[]);
-            const errorhandler = () =>{
-                seterror(null);
-            }
+            // const errorhandler = () =>{
+            //     seterror(null);
+            // }
     return(
         <>
-        {!userdata && !isloading && <Errormodel text={error}/>}
-        {isloading && ( <center><Loadingscreen /></center>)}
+        {isloading && ( <div style={{width:"100px" ,margin: "auto"}}><Loadingscreen /></div>)}
         {!isloading && userdata && <Userlist items = {userdata}/>}
         </>
     );
