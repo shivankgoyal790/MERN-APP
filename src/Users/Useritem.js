@@ -3,9 +3,11 @@ import "./Useritem.css"
 import { Link } from "react-router-dom"
 import Logo1 from "../Shared/images/shiva.jpg"
 const Useritem = (props) =>{
+    
+    
     return(
 
-            <Link to="/u1/myplaces">
+            <Link to={`${props.key}/myplaces`}>
                 <div className="user-container">
                     <div className="userimage">
                         <img src={Logo1} alt="user" />
