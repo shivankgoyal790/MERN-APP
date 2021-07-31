@@ -103,7 +103,7 @@ const Auth = () =>{
                 throw new Error(responsedata.message);
             }
             setisloading(false); 
-            Authentication.login();
+            Authentication.login(responsedata.user.id);
         }
         catch(err){
             console.log(err);
@@ -135,7 +135,7 @@ const Auth = () =>{
             }
             console.log(responsedata);
             setisloading(false); 
-            Authentication.login();
+            Authentication.login(responsedata.user.id);
         }
         catch(err){
             console.log(err);
