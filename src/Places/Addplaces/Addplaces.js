@@ -41,19 +41,22 @@ const Addplaces = () =>{
         const Addplacehandler = async () =>{
             
             try{
-            const response = await fetch( "http://localhost:5000/api/createplaces", {
+            const response = await fetch( "http://localhost:5000/api/createplace", {
             method : "POST",
             headers : {'Content-Type' : 'application/json'}, 
             body : JSON.stringify({
+               
                 title : Newvalue.country,
                 description : Newvalue.address,
                 address : Newvalue.address,
                 location : Newvalue.location,
-                creator : Authentication.uid
+                creator : Authentication.userId 
+                
             }),
           
         }); 
         const responsedata = response.json();
+        console.log(response.body.creator,"hi");
         if(!response.ok){
             throw new Error(responsedata.message);
         }
