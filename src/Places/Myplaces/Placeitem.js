@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react"
 import "./Placeitem.css"
 import Backdrop from  "../../Shared/Components/Backdrop"
 import Modal from "../../Shared/Modal/Modal"
+import Logo2 from "../../Shared/images/taj.jpg";
 import {Authcontext} from "../../Shared/Context/Authcontext" 
 
 const Placeitem = (props) =>{
@@ -21,7 +22,7 @@ const Placeitem = (props) =>{
           
         <div className="place-container">
             <div className="image-container">
-                <img src={props.imgUrl} alt="building" />
+                <img src={Logo2} alt="building" />
             </div>
             <h1 className="country">{props.statename}</h1>
             <h2 className="building">{props.building}</h2>
