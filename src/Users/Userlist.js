@@ -15,6 +15,7 @@ const Userlist = (props) =>{
          {props.items.map(curr =>(
              <Useritem 
              key= {curr.id}
+             userId = {curr.id}
              uname= {curr.name}
                  placeCount = {curr.places.length}
              userimg = {curr.userimage} />
