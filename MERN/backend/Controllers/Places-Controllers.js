@@ -50,17 +50,23 @@ const getplacesByuserid = async (req,res,next)=>{
     // res.json( {answer : answer});
     let answer;
     try{
-      answer = await place.find( {creator : userid})
-      if(answer.length === 0){
-        res.status(400).json({message : 'cannot find id'});
-      }
-      else
-      res.json({answer : answer})
+      answer = await Users.findById(userid).populate('places');
     }  
     catch(err){
       console.log(err);
-      next(err);
+      return next(err);
     }
+    try{
+    if(!answer){  
+      res.status(400).json({message : 'cannot find id'});
+      throw new Error("cannot show");
+     
+    }}
+    catch(err){
+      console.log(err);
+      console.log('shivank');
+    }
+    res.json({places:answer.places.map(places => places.toObject({getters:true}))});
  
     
 }
@@ -88,8 +94,9 @@ const createplaces = async (req , res,next) =>{
 
     if(!user){
       res.status(404).json("cannot find user");
+      console.log("cannot find user");
     }
-    
+    else{
     try{
       const sess = await mongoose.startSession();
       sess.startTransaction();
@@ -99,11 +106,14 @@ const createplaces = async (req , res,next) =>{
       await sess.commitTransaction();
     }catch(err){
       console.log(err);
+      console.log("cannot create place")
       res.json("cannot add place");
     }
+    res.json({place : createdplace});
+  }
   
   // const result = await createdplace.save();
-  res.json({place : createdplace});
+ 
 
 }
  

@@ -43,12 +43,10 @@ const login =async (req,res,next) =>{
   catch(err){
     res.json("cannot log in");
   }
-
-  console.log(answer);
   if(!answer || answer.password !== password)
   res.status(400).json('check credentials');
   else
-  res.json("logged in");
+  res.json( {message : "logged in",user : answer.toObject({getters : true})});
   
 
 }
