@@ -11,7 +11,7 @@ const Navlinks = () =>{
         <ul className="navlist">
         <li> <NavLink to="/" >ALL USERS</NavLink></li>
         {Auth.isLoggedIn && (
-        <li> <NavLink to="/u1/myplaces">MY PLACES</NavLink></li>)}
+        <li> <NavLink to={`/${Auth.userId}/myplaces`}>MY PLACES</NavLink></li>)}
         {Auth.isLoggedIn && (
          <li><NavLink to="/myplaces/new">ADD PLACES</NavLink></li>)}
          {!Auth.isLoggedIn && (   
