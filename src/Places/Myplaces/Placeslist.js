@@ -14,6 +14,7 @@ const Placeslist = (props) =>{
          {props.items.map(curr =>(
              <Placeitem 
              key= {curr.id}
+             id = {curr.id}
              building = {curr.building}
              imgUrl= {curr.imgUrl}
              statename = {curr.statename}

@@ -4,6 +4,7 @@ import Backdrop from  "../../Shared/Components/Backdrop"
 import Modal from "../../Shared/Modal/Modal"
 import Logo2 from "../../Shared/images/taj.jpg";
 import {Authcontext} from "../../Shared/Context/Authcontext" 
+import { Link } from "react-router-dom";
 
 const Placeitem = (props) =>{
 
@@ -30,8 +31,8 @@ const Placeitem = (props) =>{
             <br></br>
             <div className="btn-container">
             <button className="btn1" onClick={OpenMapHandler}>View Map</button>
-            {Auth.isLoggedIn &&
-            <button className="btn1">Edit</button>}
+            {Auth.isLoggedIn && 
+            <button className="btn1"><Link to={`/myplaces/${props.id}`}>Edit</Link></button>}
             {Auth.isLoggedIn &&
             <button className="btn1">Delete</button>}
             </div>

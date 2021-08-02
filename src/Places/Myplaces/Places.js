@@ -16,7 +16,6 @@ const Places = () =>{
                 const responsedata= await response.json();  
                    
                 if(!response.ok){
-                    console.log("cannot add palces sjvank");
                     throw new Error("cannot load places");
                   
                 }   
