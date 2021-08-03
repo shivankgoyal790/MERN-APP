@@ -1,87 +1,81 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react";
+import { useParams } from "react-router-dom";
 // import { Authcontext } from "../../Shared/Context/Authcontext";
 // import { useContext } from "react";
 const Updateplaces = () =>{
-
+    const pid = useParams().pid;
     const [Newvalue , ChangeNewvalue ] = useState({
-            country: "",
-            address : "",
+            title: "",
+            description : "",
             location : ""}
         )
+      
 
     const InputHandler = (event) =>{
         const name = event.target.name;
         const value = event.target.value;
         ChangeNewvalue((prev) =>{
-            if(name === "country")
+            if(name === "title")
              {return{
-                country : value,
-                address : prev.address,
+                title : value,
+                description : prev.description,
                 location : prev.location
              }}
-             if(name === "building")
+             if(name === "description")
              {return{
-                country : prev.country,
-                address : value,
+                title : prev.title,
+                description : value,
                 location : prev.location
              }}
              if(name === "map")
              {return{
-                country : prev.country,
-                address : prev.address,
+                title : prev.title,
+                description : prev.description,
                 location : value
              }}
         });
 
     }
-
-
-    const Updateplacehandler = () =>{
-
-        useEffect( ()=>{
-            const Updatemyplace = async () =>{  
-                const pid = useParams().pid;
-                const response = await fetch(`http://localhost/api/${pid}`,{
-                    method :"PATCH",
-                    headers :{'Content-Type' : 'application/json'}, 
-                    body : JSON.stringify({
-                    
-                        title : Newvalue.country,
-                        description : Newvalue.address,
-                        address : Newvalue.address,
-                        location : Newvalue.location, 
-                        
+      const Updateplacehandler = async event => {
+        event.preventDefault();
+        try {
+          await fetch(
+            `http://localhost:5000/api/${pid}`,{
+            method :'PATCH',
+            headers : {'Content-Type' : 'application/json'}, 
+            body : JSON.stringify({
+              title: Newvalue.title,
+              description: Newvalue.description,
+              location : Newvalue.location
             }),
-                });
-                const responsedata = response.json;
-            }
-            Updatemyplace();
-        } , []);
-    }
+        });
+        }
+     catch (err) {}
+      };
+    
 
 
     return(
             <div className="addplace-container">
 
-           <label htmlFor="country">Country:</label>
+           <label htmlFor="title">Title:</label>
            <input 
                 type="text" 
                 className="contry" 
-                name="country" 
-                placeholder="Enter country" 
+                name="title" 
+                placeholder="Enter title" 
                 onChange ={InputHandler} 
                 value={Newvalue.Country}
             />
 
-           <label htmlFor="building">Building Name Or Address:</label>
+           <label htmlFor="description">Description</label>
            <input 
                 type="text" 
-                name="building" 
-                placeholder="Enter Location"
+                name="description" 
+                placeholder="Enter Description"
                 onChange ={InputHandler} 
-                value={Newvalue.address} 
+                value={Newvalue.description} 
               
 
             />

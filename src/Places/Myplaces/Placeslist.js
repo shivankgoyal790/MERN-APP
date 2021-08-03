@@ -15,11 +15,11 @@ const Placeslist = (props) =>{
              <Placeitem 
              key= {curr.id}
              id = {curr.id}
-             building = {curr.building}
+             title = {curr.title}
              imgUrl= {curr.imgUrl}
-             statename = {curr.statename}
+             description = {curr.description}
              creator = {curr.creator}
-             address = {curr.address}
+             location = {curr.location}
               />
          ))
          }

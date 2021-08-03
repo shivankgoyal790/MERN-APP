@@ -25,14 +25,14 @@ const Placeitem = (props) =>{
             <div className="image-container">
                 <img src={Logo2} alt="building" />
             </div>
-            <h1 className="country">{props.statename}</h1>
-            <h2 className="building">{props.building}</h2>
-            <h3 className="map-details">{props.address}</h3>
+            <h1 className="country">{props.title}</h1>
+            <h2 className="building">{props.description}</h2>
+            <h3 className="map-details">{props.location}</h3>
             <br></br>
             <div className="btn-container">
             <button className="btn1" onClick={OpenMapHandler}>View Map</button>
             {Auth.isLoggedIn && 
-            <button className="btn1"><Link to={`/myplaces/${props.id}`}>Edit</Link></button>}
+            <button className="btn1"><Link to={`/updateplaces/${props.id}`}>Edit</Link></button>}
             {Auth.isLoggedIn &&
             <button className="btn1">Delete</button>}
             </div>
