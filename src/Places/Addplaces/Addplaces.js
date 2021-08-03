@@ -6,8 +6,8 @@ import "./Addplaces.css"
 const Addplaces = () =>{
     const Authentication = useContext(Authcontext);
     const [Newvalue , ChangeNewvalue ] = useState({
-            country: "",
-            address : "",
+            title: "",
+            description : "",
             location : ""}
         )
 
@@ -15,22 +15,22 @@ const Addplaces = () =>{
         const name = event.target.name;
         const value = event.target.value;
         ChangeNewvalue((prev) =>{
-            if(name === "country")
+            if(name === "title")
              {return{
-                country : value,
-                address : prev.address,
+                title : value,
+                description : prev.description,
                 location : prev.location
              }}
              if(name === "building")
              {return{
-                country : prev.country,
-                address : value,
+                title : prev.title,
+                description : value,
                 location : prev.location
              }}
              if(name === "map")
              {return{
-                country : prev.country,
-                address : prev.address,
+                title : prev.title,
+                description : prev.description,
                 location : value
              }}
         });
@@ -46,9 +46,8 @@ const Addplaces = () =>{
             headers : {'Content-Type' : 'application/json'}, 
             body : JSON.stringify({
                
-                title : Newvalue.country,
-                description : Newvalue.address,
-                address : Newvalue.address,
+                title : Newvalue.title,
+                description : Newvalue.description,
                 location : Newvalue.location,
                 creator : Authentication.userId 
                 
@@ -81,23 +80,23 @@ const Addplaces = () =>{
            <br></br>
            <br></br>
           
-           <label htmlFor="country">Country:</label>
+           <label htmlFor="title">Title:</label>
            <input 
                 type="text" 
                 className="contry" 
-                name="country" 
-                placeholder="Enter country" 
+                name="title" 
+                placeholder="Enter title" 
                 onChange ={InputHandler} 
                 value={Newvalue.Country}
             />
 
-           <label htmlFor="building">Building Name Or Address:</label>
+           <label htmlFor="building">Description</label>
            <input 
                 type="text" 
                 name="building" 
-                placeholder="Enter Location"
+                placeholder="Enter Place description"
                 onChange ={InputHandler} 
-                value={Newvalue.address} 
+                value={Newvalue.description} 
               
 
             />
