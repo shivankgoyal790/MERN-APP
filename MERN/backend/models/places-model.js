@@ -3,7 +3,6 @@ const placeSchema = new mongoose.Schema({
     title : {type : String, required: true},
     description : {type : String, required: true},
     location :{type : String, required: true},
-    address: {type : String, required: true},
     creator: {type: mongoose.Types.ObjectId , require:true , ref : 'Users'}
 });
 

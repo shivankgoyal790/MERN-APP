@@ -125,6 +125,7 @@ const updateplaces =  async (req,res,next) =>{
   const placeid = req.params.pid;
   const title = req.body.title; 
  const description = req.body.description;
+ const location = req.body.location;
  
 // const error = validationResult(req)
 //   const updatedplace = {...DUMMY_PLACES}.find(p => p.id === placeid);
@@ -142,6 +143,7 @@ try{
 
 Place.title = title;
 Place.description = description;
+Place.location = location;
 try{ 
   await Place.save();
 }catch(err) {
