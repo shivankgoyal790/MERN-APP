@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { Authcontext } from "../../Shared/Context/Authcontext";
 import { useContext } from "react";
+import { useHistory } from "react-router";
 import "./Addplaces.css"
 
 const Addplaces = () =>{
     const Authentication = useContext(Authcontext);
+    const history = useHistory();
     const [Newvalue , ChangeNewvalue ] = useState({
             title: "",
             description : "",
@@ -55,11 +57,11 @@ const Addplaces = () =>{
           
         }); 
         const responsedata = response.json();
-        console.log(response.body.creator,"hi");
         if(!response.ok){
             throw new Error(responsedata.message);
         }
         console.log(responsedata);
+        history.push('/' + Authentication.userId + '/myplaces')
         }catch(err){
             console.log(err || "cannot create place");
         }
