@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-// import { Authcontext } from "../../Shared/Context/Authcontext";
-// import { useContext } from "react";
+import { Authcontext } from "../../Shared/Context/Authcontext";
+import { useContext } from "react";
+import { useHistory } from "react-router";
 const Updateplaces = () =>{
     const pid = useParams().pid;
+    const Auth = useContext(Authcontext);
     const [Newvalue , ChangeNewvalue ] = useState({
             title: "",
             description : "",
             location : ""}
         )
+    const history = useHistory();    
       
 
     const InputHandler = (event) =>{
@@ -50,6 +53,8 @@ const Updateplaces = () =>{
               location : Newvalue.location
             }),
         });
+        history.push('/' + Auth.userId + '/myplaces');
+        console.log(history);
         }
      catch (err) {}
       };
