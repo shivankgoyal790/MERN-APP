@@ -8,6 +8,7 @@ import { Authcontext } from "./Context/Authcontext";
 import Loadingscreen  from "./Components/Loadingscreen";
 import Backdrop from "../Shared/Components/Backdrop";
 import Errormodel from "./Components/Errormodel";
+import { useHistory } from "react-router";
 
 const Auth = () =>{
 
@@ -19,7 +20,7 @@ const Auth = () =>{
     const [isloading , setisloading] = useState(false);
     const [error , seterror] = useState();
     const[showmodal , setshowmodal ] = useState(false);
-    
+    const history = useHistory();
     const closeMapHandler = () =>{
         setshowmodal(false);
     }
@@ -85,7 +86,6 @@ const Auth = () =>{
             setuservalid(false);
         }
         if(IsLogin){
-            console.log("hi");
             setisloading(true);
             try {
             const response = await fetch("http://localhost:5000/users/login",{
@@ -104,6 +104,7 @@ const Auth = () =>{
             }
             setisloading(false); 
             Authentication.login(responsedata.user.id);
+            history.push('/');
         }
         catch(err){
             console.log(err);
@@ -115,7 +116,6 @@ const Auth = () =>{
 
         }
         else{
-            console.log("bye");
             setisloading(true);
             try {
             const response = await fetch("http://localhost:5000/users/signup",{
@@ -136,6 +136,7 @@ const Auth = () =>{
             console.log(responsedata);
             setisloading(false); 
             Authentication.login(responsedata.user.id);
+            history.push("/");
         }
         catch(err){
             console.log(err);

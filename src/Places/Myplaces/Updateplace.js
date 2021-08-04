@@ -13,7 +13,6 @@ const Updateplaces = () =>{
             location : ""}
         )
     const history = useHistory();    
-      
 
     const InputHandler = (event) =>{
         const name = event.target.name;

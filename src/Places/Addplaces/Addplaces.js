@@ -3,10 +3,12 @@ import { Authcontext } from "../../Shared/Context/Authcontext";
 import { useContext } from "react";
 import { useHistory } from "react-router";
 import "./Addplaces.css"
+import Loadingscreen from "../../Shared/Components/Loadingscreen"
 
 const Addplaces = () =>{
     const Authentication = useContext(Authcontext);
     const history = useHistory();
+    const [isLoading,setisloading] = useState(false);
     const [Newvalue , ChangeNewvalue ] = useState({
             title: "",
             description : "",
@@ -43,6 +45,7 @@ const Addplaces = () =>{
         const Addplacehandler = async () =>{
             
             try{
+            setisloading(true);
             const response = await fetch( "http://localhost:5000/api/createplace", {
             method : "POST",
             headers : {'Content-Type' : 'application/json'}, 
@@ -61,8 +64,10 @@ const Addplaces = () =>{
             throw new Error(responsedata.message);
         }
         console.log(responsedata);
-        history.push('/' + Authentication.userId + '/myplaces')
+        history.push('/' + Authentication.userId + '/myplaces');
+        setisloading(false);
         }catch(err){
+            setisloading(false);
             console.log(err || "cannot create place");
         }
 
@@ -70,6 +75,8 @@ const Addplaces = () =>{
     }
 
    return(
+       <>
+       {isLoading && ( <div style={{width:"100px" ,margin: "auto"}}><Loadingscreen /></div>)}
            <div className="addplace-container">
            <h2>Please Upload Your file:</h2>
            <input 
@@ -112,6 +119,7 @@ const Addplaces = () =>{
             />
            <button type="submit" className="btn" onClick={Addplacehandler}>ADD PLACE</button>
            </div>
+           </>
         
     );
 
