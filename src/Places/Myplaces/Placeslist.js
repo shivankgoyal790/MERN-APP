@@ -20,6 +20,7 @@ const Placeslist = (props) =>{
              description = {curr.description}
              creator = {curr.creator}
              location = {curr.location}
+             ondelete = {props.ondeleteplace}
               />
          ))
          }

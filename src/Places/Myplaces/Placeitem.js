@@ -18,6 +18,19 @@ const Placeitem = (props) =>{
     }
     const Auth = useContext(Authcontext);
 
+    const deleteplacehandler = async () =>{
+        try{
+
+            await fetch(`http://localhost:5000/api/${props.id}`,{
+                method :'DELETE',
+                headers : {'Content-Type' : 'application/json'} }
+                );
+                props.ondelete(props.id);
+        } catch(err){
+            console.log(err);
+        }   
+    }
+
     return(
         <>
           
@@ -34,7 +47,7 @@ const Placeitem = (props) =>{
             {Auth.isLoggedIn && 
             <button className="btn1"><Link to={`/updateplaces/${props.id}`}>Edit</Link></button>}
             {Auth.isLoggedIn &&
-            <button className="btn1">Delete</button>}
+            <button className="btn1" onClick={deleteplacehandler}>Delete</button>}
             </div>
  
         </div>

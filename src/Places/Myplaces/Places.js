@@ -27,7 +27,9 @@ const Places = () =>{
             };
             fetchplaces();
         },[userid]);
-    
+    const deleteplacehandler = (deleteplaceid) =>{
+        setloadedplaces(prevplaces => prevplaces.filter(place => place.id !== deleteplaceid  ));
+    };
     // const loadedplaces = DummyPlaces.filter(curr => curr.creator === userid);
     
         // const DummyPlaces = [ 
@@ -52,7 +54,7 @@ const Places = () =>{
     // ];
     return(
         <>
-       {loadedplaces && <Placeslist items = {loadedplaces} />}
+       {loadedplaces && <Placeslist items = {loadedplaces} ondeleteplace = {deleteplacehandler}/>}
        </>
     );
 }
