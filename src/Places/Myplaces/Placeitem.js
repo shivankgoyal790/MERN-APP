@@ -44,9 +44,9 @@ const Placeitem = (props) =>{
             <br></br>
             <div className="btn-container">
             <button className="btn1" onClick={OpenMapHandler}>View Map</button>
-            {Auth.isLoggedIn && 
+            {Auth.userId === props.creator &&
             <button className="btn1"><Link to={`/updateplaces/${props.id}`}>Edit</Link></button>}
-            {Auth.isLoggedIn &&
+            {Auth.userId === props.creator &&
             <button className="btn1" onClick={deleteplacehandler}>Delete</button>}
             </div>
  
