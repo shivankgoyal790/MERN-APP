@@ -8,6 +8,7 @@ import { Authcontext } from "./Context/Authcontext";
 import Loadingscreen  from "./Components/Loadingscreen";
 import Backdrop from "../Shared/Components/Backdrop";
 import Errormodel from "./Components/Errormodel";
+import Imageupload from "./Components/Imageupload";
 import { useHistory } from "react-router";
 
 const Auth = () =>{
@@ -141,7 +142,7 @@ const Auth = () =>{
         catch(err){
             console.log(err);
             setisloading(false);
-            seterror(err.message || "something went wrong");  
+            seterror("something went wrong");  
             OpenMapHandler(); 
         }
 
@@ -184,7 +185,7 @@ const Auth = () =>{
                     </input>
                 </span>
             
-            
+                {!IsLogin && <Imageupload />}
                     <label className="mylabel" htmlFor="email">E-mail {!Isvalid && <p className="error">*please enter a valid email</p> }</label>
                     <input 
                         type="text" 
@@ -205,7 +206,6 @@ const Auth = () =>{
                         onChange = {InputHandler}    
                         placeholder="Enter Password">
                     </input>
-
                     <button type="submit" className="authbutton">{IsLogin ? "Log In" : "Sign Up"}</button>
                     
                     <p className="toggle"> {IsLogin ? "Don't" : "Already"} have an account?
