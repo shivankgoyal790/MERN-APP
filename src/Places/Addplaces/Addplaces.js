@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { useHistory } from "react-router";
 import "./Addplaces.css"
 import Loadingscreen from "../../Shared/Components/Loadingscreen"
+import Imageupload from "../../Shared/Components/Imageupload";
 
 const Addplaces = () =>{
     const Authentication = useContext(Authcontext);
@@ -50,7 +51,7 @@ const Addplaces = () =>{
             method : "POST",
             headers : {'Content-Type' : 'application/json'}, 
             body : JSON.stringify({
-               
+                image : Newvalue.image,
                 title : Newvalue.title,
                 description : Newvalue.description,
                 location : Newvalue.location,
@@ -78,17 +79,9 @@ const Addplaces = () =>{
        <>
        {isLoading && ( <div style={{width:"100px" ,margin: "auto"}}><Loadingscreen /></div>)}
            <div className="addplace-container">
-           <h2>Please Upload Your file:</h2>
-           <input 
-                type="file" 
-                id="myFile" 
-                name="filename" 
-                className="choose-file" 
-            />
-           <label htmlFor="myfile" className="label">choose file</label>
-           <br></br>
-           <br></br>
-          
+           <h2>Please Upload Your place:</h2>
+           <Imageupload />
+          <br></br>
            <label htmlFor="title">Title:</label>
            <input 
                 type="text" 
