@@ -1,7 +1,7 @@
 import React from "react"
 import "./Useritem.css"
 import { Link } from "react-router-dom"
-import Logo1 from "../Shared/images/shiva.jpg"
+// import Logo1 from "../Shared/images/shiva.jpg"
 const Useritem = (props) =>{
     
     
@@ -10,7 +10,7 @@ const Useritem = (props) =>{
             <Link to={`/${props.userId}/myplaces`}>
                 <div className="user-container">
                     <div className="userimage">
-                        <img src={Logo1} alt="user" />
+                        <img src={props.userimg} alt="user" />
                     </div>
                     <div className="info">
                         <h2>{props.uname}</h2>

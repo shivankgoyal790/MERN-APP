@@ -18,7 +18,7 @@ const Userlist = (props) =>{
              userId = {curr.id}
              uname= {curr.name}
                  placeCount = {curr.places.length}
-             userimg = {curr.userimage} />
+             userimg = {curr.image} />
          ))
          }
         </ul>
