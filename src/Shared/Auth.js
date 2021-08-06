@@ -10,10 +10,11 @@ import Backdrop from "../Shared/Components/Backdrop";
 import Errormodel from "./Components/Errormodel";
 import Imageupload from "./Components/Imageupload";
 import { useHistory } from "react-router";
+import { useCallback } from "react";
 
 const Auth = () =>{
 
-    const [Newvalue , ChangeNewvalue] = useState({username : "" , email :"" ,password : ""});
+    const [Newvalue , ChangeNewvalue] = useState({image: undefined ,username : "" , email :"" ,password : ""});
     const [Isvalid , setIsvalid] = useState(true);
     const [passvalid , setpassvalid] = useState(true);
     const [uservalid , setuservalid] = useState(true);
@@ -31,29 +32,59 @@ const Auth = () =>{
     }
     const Authentication = useContext(Authcontext);
 
+    const imagefilehandler = useCallback((value) => {
+        console.log(value.name);
+        ChangeNewvalue((prev)=>{
 
+            return{
+                image : value,
+                username : prev.username,
+                email : prev.email,
+                password : prev.password
+            }
+        }
+        );
+    },[])
+    
     const InputHandler = (event) =>{
         const name = event.target.name;
         const value = event.target.value;
         ChangeNewvalue((prev) =>{
+            // if(name === "image"){
+                
+            //     return{
+            //         image : value,
+            //         username : prev.username,
+            //         email : prev.email,
+            //         password : prev.password
+            //     }
+               
+            // }
+            
             if(name === "username")
              {return{
+              
                 username : value,
                 email : prev.email,
-                password : prev.password
+                password : prev.password,
+                image : prev.image
              }}
              if(name === "email")
              {return{
+                image : prev.image,
                 username : prev.username,
                 email : value,
                 password : prev.password
              }}
              if(name === "password")
              {return{
+                image : prev.image,
                 username : prev.username,
                 email : prev.email,
                 password : value
              }}
+
+             
         });
     }
     
@@ -61,7 +92,7 @@ const Auth = () =>{
         setuservalid(true);
         setpassvalid(true);
         setIsvalid(true);
-        ChangeNewvalue( {username: "" ,email:"" , password:"" });
+        ChangeNewvalue( {username: "" ,email:"" , password:"" ,image : undefined});
             if(IsLogin === true)
             setLogin(false);
             else
@@ -125,12 +156,15 @@ const Auth = () =>{
                 body : JSON.stringify({
                     name : Newvalue.username,
                     email : Newvalue.email,
-                    password : Newvalue.password
+                    password : Newvalue.password,
+                    image : Newvalue.image.toString()
                 }),
             });  
 
             const responsedata = await response.json();
             if(!response.ok){
+                console.log("not ok");
+                console.log(response.status);
                 seterror("cannot find");
                 throw new Error(responsedata.message);
             }
@@ -142,7 +176,7 @@ const Auth = () =>{
         catch(err){
             console.log(err);
             setisloading(false);
-            seterror("something went wrong");  
+            seterror("fill the complete data");  
             OpenMapHandler(); 
         }
 
@@ -185,7 +219,7 @@ const Auth = () =>{
                     </input>
                 </span>
             
-                {!IsLogin && <Imageupload />}
+                {!IsLogin && <Imageupload id="image" name ="image" circle="50%" oninput = {imagefilehandler}/> }
                     <label className="mylabel" htmlFor="email">E-mail {!Isvalid && <p className="error">*please enter a valid email</p> }</label>
                     <input 
                         type="text" 
