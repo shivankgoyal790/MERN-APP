@@ -5,27 +5,31 @@ import MainNavigation from "./Shared/Components/MainNavigation";
 import Auth from "./Shared/Auth"
 import Places from "./Places/Myplaces/Places";
 import Addplaces from "./Places/Addplaces/Addplaces";
+import Updateplaces from "./Places/Myplaces/Updateplace";
 import { Authcontext } from "./Shared/Context/Authcontext";
-function App() {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  const login = useCallback(() => {
+  const [ userId , setuserId] = useState(false);
+  const login = useCallback((uid) => {
     setIsLoggedIn(true);
+    setuserId(uid);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setuserId(null);
   }, []);
   return (
-    <Authcontext.Provider value={ {isLoggedIn:isLoggedIn , login:login , logout:logout }}>
+    <Authcontext.Provider value={ {isLoggedIn:isLoggedIn ,userId : userId, login:login , logout:logout }}>
     <Router>
       <MainNavigation />
       <Switch>
           <Route path="/" exact><Users /></Route>
           <Route path="/:userid/myplaces" exact><Places /></Route>
+          <Route path="/updateplaces/:pid"><Updateplaces/></Route>
           <Route path="/myplaces/new" exact><Addplaces /></Route>
           <Route path="/Auth" exact><Auth /></Route>
-          <Redirect to="/" />
+          <Redirect to="/"/>
       </Switch>
     </Router>
   </Authcontext.Provider>

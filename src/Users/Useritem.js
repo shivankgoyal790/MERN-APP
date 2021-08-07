@@ -10,7 +10,7 @@ const Useritem = (props) =>{
             <Link to={`/${props.userId}/myplaces`}>
                 <div className="user-container">
                     <div className="userimage">
-                        <img src={props.userimg} alt="user" />
+                        <img src={`http://localhost:5000/${props.userimg}`} alt="user" />
                     </div>
                     <div className="info">
                         <h2>{props.uname}</h2>
