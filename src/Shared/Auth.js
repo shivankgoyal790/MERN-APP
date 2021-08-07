@@ -33,7 +33,6 @@ const Auth = () =>{
     const Authentication = useContext(Authcontext);
 
     const imagefilehandler = useCallback((value) => {
-        console.log(value.name);
         ChangeNewvalue((prev)=>{
 
             return{
@@ -63,11 +62,11 @@ const Auth = () =>{
             
             if(name === "username")
              {return{
-              
+                image : prev.image,
                 username : value,
                 email : prev.email,
-                password : prev.password,
-                image : prev.image
+                password : prev.password
+                
              }}
              if(name === "email")
              {return{
@@ -117,6 +116,8 @@ const Auth = () =>{
         if(!valid3){
             setuservalid(false);
         }
+        console.log(Newvalue.password);
+    
         if(IsLogin){
             setisloading(true);
             try {
@@ -147,19 +148,20 @@ const Auth = () =>{
         }
 
         }
-        else{
+        if(!IsLogin){
             setisloading(true);
+           
             try {
+                const formdata = new FormData();
+                formdata.append('name',Newvalue.username);
+                formdata.append('email',Newvalue.email);
+                formdata.append('password',Newvalue.password);
+                formdata.append('image',Newvalue.image);
+                console.log(formdata.entries);
             const response = await fetch("http://localhost:5000/users/signup",{
                 method : 'POST',
-                headers : {'Content-Type' : 'application/json'}, 
-                body : JSON.stringify({
-                    name : Newvalue.username,
-                    email : Newvalue.email,
-                    password : Newvalue.password,
-                    image : Newvalue.image.toString()
-                }),
-            });  
+                body : formdata
+            });     
 
             const responsedata = await response.json();
             if(!response.ok){
@@ -182,7 +184,7 @@ const Auth = () =>{
 
         }
         
-
+    
 
         // if(IsLogin){
         // if(valid1 && valid2){
