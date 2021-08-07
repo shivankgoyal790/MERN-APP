@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Authcontext } from "../../Shared/Context/Authcontext";
 import { useContext } from "react";
 import { useHistory } from "react-router";
+import { useCallback } from "react";
 import "./Addplaces.css"
 import Loadingscreen from "../../Shared/Components/Loadingscreen"
 import Imageupload from "../../Shared/Components/Imageupload";
@@ -13,9 +14,22 @@ const Addplaces = () =>{
     const [Newvalue , ChangeNewvalue ] = useState({
             title: "",
             description : "",
+            image : undefined,
             location : ""}
         )
-
+        const inputimagehandler = useCallback((value) => {
+            ChangeNewvalue((prev)=>{
+    
+                return{
+                   
+                    title : prev.title,
+                    description : prev.description,
+                    image : value,
+                    location : prev.location
+                }
+            }
+            );
+        },[])
     const InputHandler = (event) =>{
         const name = event.target.name;
         const value = event.target.value;
@@ -24,19 +38,22 @@ const Addplaces = () =>{
              {return{
                 title : value,
                 description : prev.description,
-                location : prev.location
+                location : prev.location,
+                image : prev.image
              }}
              if(name === "building")
              {return{
                 title : prev.title,
                 description : value,
-                location : prev.location
+                location : prev.location,
+                image : prev.image
              }}
              if(name === "map")
              {return{
                 title : prev.title,
                 description : prev.description,
-                location : value
+                location : value,
+                image : prev.image
              }}
         });
 
@@ -47,19 +64,27 @@ const Addplaces = () =>{
             
             try{
             setisloading(true);
+            const formdata = new FormData();
+            formdata.append('title',Newvalue.title);
+            formdata.append('description',Newvalue.description);
+            formdata.append('image',Newvalue.image);
+            formdata.append('location',Newvalue.location);
+            formdata.append('creator',Authentication.userId);
             const response = await fetch( "http://localhost:5000/api/createplace", {
             method : "POST",
-            headers : {'Content-Type' : 'application/json'}, 
-            body : JSON.stringify({
-                image : Newvalue.image,
-                title : Newvalue.title,
-                description : Newvalue.description,
-                location : Newvalue.location,
-                creator : Authentication.userId 
+            // headers : {'Content-Type' : 'application/json'}, 
+            // body : JSON.stringify({
+            //     image : Newvalue.image,
+            //     title : Newvalue.title,
+            //     description : Newvalue.description,
+            //     location : Newvalue.location,
+            //     creator : Authentication.userId 
                 
-            }),
+            // }),
+            body : formdata
           
         }); 
+        console.log(formdata.entries.image);
         const responsedata = response.json();
         if(!response.ok){
             throw new Error(responsedata.message);
@@ -80,7 +105,7 @@ const Addplaces = () =>{
        {isLoading && ( <div style={{width:"100px" ,margin: "auto"}}><Loadingscreen /></div>)}
            <div className="addplace-container">
            <h2>Please Upload Your place:</h2>
-           <Imageupload />
+           <Imageupload id="image" name="image" oninput={inputimagehandler}/>
           <br></br>
            <label htmlFor="title">Title:</label>
            <input 
