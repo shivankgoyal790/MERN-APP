@@ -1,5 +1,6 @@
 const {validationResult} = require('express-validator')
 const mongoose = require('mongoose');
+const fs = require('fs');
 const place = require('../models/places-model'); 
 const Users = require('../models/Users-model')
 // mongoose.connect("mongodb://localhost:27017/places?retryWrites=false?replicaSet=rs").then(() => {console.log('conected to database')}).catch( () => { console.log('not connected')});
@@ -71,18 +72,18 @@ const getplacesByuserid = async (req,res,next)=>{
     
 }
 
-const createplaces = async (req , res,next) =>{
+const createplaces = async (req,res,next) =>{
   const error = validationResult(req);
-  const { title, description, address,location, creator } = req.body;
+  const { title, description,location, creator } = req.body;
 
   if(error.isEmpty){
-  const createdplace = new place({
+  const createdplace = await new place({
 
-      title,
-      description,
-      address,
-      location,
-      creator
+      title : title,
+      description :description,
+      location:location,
+      creator:creator,
+      image : req.file.path
   
     }); 
     let user;
@@ -162,8 +163,10 @@ const deleteplaces = async (req,res,next) =>{
   // DUMMY_PLACES[deletedplace].remove();
   // res.json({message: 'deleted'});
   let answer ;
+  let imagepath;
   try{
      answer = await place.findById(placeid).populate('creator');
+     imagepath = answer.image;
   }
   catch(err){
     console.log(err);
@@ -186,6 +189,10 @@ else{
    res.json("cannot delete place");
    next();
  }
+
+ fs.unlink(imagepath,err =>{
+   console.log(err)
+ });
  res.json({answer : "deleted place"});
 }
 }
