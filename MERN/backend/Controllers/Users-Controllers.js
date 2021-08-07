@@ -1,6 +1,5 @@
 // const {validationResult} = require('express-validator')
-const mongoose = require('mongoose');
-
+// const mongoose = require('mongoose');
 // mongoose.connect("mongodb//localhost:27017/Users?retryWrites=false").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
 const Users = require("../models/Users-model");
 // const USERS = [
@@ -8,7 +7,7 @@ const Users = require("../models/Users-model");
 //       id: 'u1',
 //       name: 'Max Schwarz',
 //       email : 'goyal.shivank@gmail.com',
-//       password : 'shivank119'
+//       password : 'shivank119'  
 //     }
 //   ];
 
@@ -53,13 +52,14 @@ const login =async (req,res,next) =>{
 
 
 const signup =async (req,res,next) =>{
-    const {name,email,password} = req.body;
+    
+  const {name,email,password} = req.body;
     let usercheck
     try{
       usercheck = await Users.findOne( {email : email})
     }  
     catch(err){
-      res.json("cannot signup!");
+      res.status(500).json("cannot signup!");
       console.log(err);
     }
 try{
@@ -79,18 +79,24 @@ try{
           name : name,
           email : email,
           password : password,
+          image : req.file.path,
           places : []
         }
       )
       try{
-        newuser.save();
+        if(newuser.password === "" || newuser.name === "" || newuser.email === "" ){  
+          throw new Error('check please');
+        }
+        else{
+        await newuser.save();
+        res.json({user : newuser.toObject({getters:true})});}
       }
       catch(err){
-        res.json("check credentials cannot signup");
+        res.status(404).json("check credentials cannot signup");
         
       }
 
-      res.json({user : newuser.toObject({getters:true})});
+      
     }
   
     // const error = validationResult(req);
