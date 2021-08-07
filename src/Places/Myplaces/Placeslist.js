@@ -16,7 +16,7 @@ const Placeslist = (props) =>{
              key= {curr.id}
              id = {curr.id}
              title = {curr.title}
-             imgUrl= {curr.imgUrl}
+             image= {curr.image}
              description = {curr.description}
              creator = {curr.creator}
              location = {curr.location}

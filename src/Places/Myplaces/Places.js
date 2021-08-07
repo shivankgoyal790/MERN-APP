@@ -32,8 +32,11 @@ const Places = () =>{
             };
             fetchplaces();
         },[userid]);
+        
     const deleteplacehandler = (deleteplaceid) =>{
+        setisLoading(true);
         setloadedplaces(prevplaces => prevplaces.filter(place => place.id !== deleteplaceid  ));
+        setisLoading(false);
     };
     // const loadedplaces = DummyPlaces.filter(curr => curr.creator === userid);
     

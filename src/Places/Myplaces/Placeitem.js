@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react"
 import "./Placeitem.css"
 import Backdrop from  "../../Shared/Components/Backdrop"
 import Modal from "../../Shared/Modal/Modal"
-import Logo2 from "../../Shared/images/taj.jpg";
 import {Authcontext} from "../../Shared/Context/Authcontext" 
 import { Link } from "react-router-dom";
+import Loadingscreen from "../../Shared/Components/Loadingscreen"
 
 const Placeitem = (props) =>{
-
+    const [isloading , setisloading] = useState(false);
     const[showmodal , setshowmodal ] = useState(false);
     const closeMapHandler = () =>{
         setshowmodal(false);
@@ -20,23 +20,25 @@ const Placeitem = (props) =>{
 
     const deleteplacehandler = async () =>{
         try{
-
+            setisloading(true);
             await fetch(`http://localhost:5000/api/${props.id}`,{
                 method :'DELETE',
                 headers : {'Content-Type' : 'application/json'} }
                 );
                 props.ondelete(props.id);
+                setisloading(false);
         } catch(err){
+            setisloading(false);
             console.log(err);
         }   
     }
 
     return(
         <>
-          
+          {isloading && ( <div style={{width:"100px" ,margin: "auto auto"}}><Loadingscreen /></div>)}
         <div className="place-container">
-            <div className="image-container">
-                <img src={Logo2} alt="building" />
+            <div className="image-container"> 
+                <img src={`http://localhost:5000/${props.image}`} alt="building" />
             </div>
             <h1 className="country">{props.title}</h1>
             <h2 className="building">{props.description}</h2>
