@@ -1,5 +1,7 @@
 // const {validationResult} = require('express-validator')
 // const mongoose = require('mongoose');
+const encrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken')
 // mongoose.connect("mongodb//localhost:27017/Users?retryWrites=false").then(() => {console.log('conected to database')}).catch( () => { console.log('not connectted')});
 const Users = require("../models/Users-model");
 // const USERS = [
@@ -42,14 +44,43 @@ const login =async (req,res,next) =>{
   catch(err){
     res.json("cannot log in");
   }
-  if(!answer || answer.password !== password)
+  if(!answer){
   res.status(400).json('check credentials');
-  else
+  return next();
+  }
+  let isvalid = false;
+  try{
+
+    isvalid = await encrypt.compare(password,answer.password)
+  }
+  catch(err){
+    console.log(err);
+    return next();  
+  }
+
+  if(!isvalid){
+    res.status(400).json('check credentials');
+    return next();
+  }
+
+  // let token;
+  // try{
+  //   token = jwt.sign({
+  //     userId : answer.id,
+  //     email : answer.email},
+  //     'webtoken',
+  //     {expiresIn :'1h'}) ;
+  // }
+  // catch(err){
+  //   console.log(err);
+  //   res.status(500).json('login in failed')
+  //   return next();
+  // }
+
   res.json( {message : "logged in",user : answer.toObject({getters : true})});
-  
+  // res.json({userid:answer.id,email:answer.email,token:token});
 
 }
-
 
 const signup =async (req,res,next) =>{
     
@@ -73,31 +104,52 @@ try{
       console.log('user already exist');
       return next();
     }
-    
+    let hashedpassword;
+    try{
+
+      hashedpassword =await  encrypt.hash(password,12)
+    }catch(err){
+      console.log(err);
+    }
     const newuser = await new Users (
         {
           name : name,
           email : email,
-          password : password,
+          password : hashedpassword,
           image : req.file.path,
           places : []
         }
       )
       try{
-        if(newuser.password === "" || newuser.name === "" || newuser.email === "" ){  
+        if(!newuser.password || newuser.name === "" || newuser.email === "" ){  
           throw new Error('check please');
         }
         else{
-        await newuser.save();
-        res.json({user : newuser.toObject({getters:true})});}
-      }
-      catch(err){
-        res.status(404).json("check credentials cannot signup");
-        
-      }
 
-      
-    }
+            await newuser.save();
+          }
+        }
+        catch(err){
+          res.status(404).json("check credentials cannot signup");
+           
+        }
+
+        // let token;
+        // try{
+        //   token = jwt.sign({
+        //     userId : newuser.id,
+        //     email : newuser.email},
+        //     'webtoken',
+        //     {expiresIn :'1h'}) ;
+        // }
+        // catch(err){
+        //   console.log(err);
+        //   res.status(500).json('signing up failed')
+        //   return next();
+        // }
+        res.json({user : newuser.toObject({getters:true})});
+        // res.json({userId : newuser.id,email : newuser.email, token : token});
+      } 
   
     // const error = validationResult(req);
     // const sameuser = USERS.find(u => u.email === email);
